@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function HomeBrand() {
+export default function ForgetPassword() {
   return (
     <View>
-      <Text>HomeBrand</Text>
+      <Text>ForgetPassword</Text>
     </View>
   )
 }
