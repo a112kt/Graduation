@@ -336,9 +336,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   headerGradient: {
-    height: 110,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    height: 100,
     paddingTop: Platform.OS === "ios" ? 36 : 25,
     paddingHorizontal: 18,
     flexDirection: "row",
