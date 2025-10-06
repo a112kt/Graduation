@@ -9,6 +9,7 @@ import {
   Platform,
   Pressable,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import GradientText from "../../Components/GradientText";
 import { SvgXml } from "react-native-svg";
@@ -24,6 +25,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<
   "Login",
   "role"
 >;
+
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
@@ -37,9 +39,6 @@ export default function LoginScreen() {
 </defs>
 </svg>`;
 
-  const BOX_TOP = 284;
-  const HORIZONTAL_PADDING = 20;
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -49,117 +48,110 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Logo */}
-      <View style={styles.logoWrapper}>
-        <View style={styles.logo}>
-          <Image
-            source={require("../../assests/imgs/AlluvoLogo.png")}
-            style={{ width: 62, height: 65 }}
-          />
-          <GradientText text="Alluvo" textStyle={styles.text} />
-        </View>
-
-        <SvgXml
-          xml={shadow_SVG}
-          width={237}
-          height={24}
-          style={styles.shadow}
-        />
-      </View>
-
-      {/* Form area */}
       <KeyboardAvoidingView
-        style={[
-          styles.formCard,
-          { top: BOX_TOP, paddingHorizontal: HORIZONTAL_PADDING },
-        ]}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        {/* Email */}
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          placeholder="Enter Your Email"
-          value={email}
-          onChangeText={setEmail}
-          mode="flat"
-          style={styles.input}
-          underlineColor="transparent"
-          contentStyle={styles.inputContent}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        {emailError && <Text style={styles.error}>Not Valid Email</Text>}
-
-        {/* Password */}
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          placeholder="Enter Your Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!visible}
-          mode="flat"
-          style={styles.input}
-          underlineColor="transparent"
-          contentStyle={styles.inputContent}
-          right={
-            <TextInput.Icon
-              icon={visible ? "eye-off" : "eye"}
-              forceTextInputFocus={false}
-              onPress={() => setVisible((v) => !v)}
-            />
-          }
-        />
-        <Pressable
-          onPress={() => {
-            navigation.navigate("forgetPassword");
-          }}
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          scrollEnabled
         >
-          <Text style={styles.forgetPassword}>Forget Password?</Text>
-        </Pressable>
-        <Pressable style={styles.loginButton}>
-          <LinearGradient
-            colors={["#1B2351", "#47C0D2"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.loginButton}
-          >
-            <Text style={styles.loginText}>Login</Text>
-          </LinearGradient>
-        </Pressable>
+          {/* Logo */}
+          <View style={styles.logoWrapper}>
+            <View style={styles.logo}>
+              <Image
+                source={require("../../assests/imgs/AlluvoLogo.png")}
+                style={{ width: 62, height: 65 }}
+              />
+              <GradientText text="Alluvo" textStyle={styles.text} />
+            </View>
+            <SvgXml xml={shadow_SVG} width={237} height={24} style={styles.shadow} />
+          </View>
 
-        {/* Divider with text */}
-        <View style={styles.dividerContainer}>
-          <View style={styles.line} />
-          <Text style={styles.textLine}>Or With</Text>
-          <View style={styles.line} />
-        </View>
-
-        {/* Social Buttons */}
-        <View style={styles.socialContainer}>
-          {/* Google */}
-          <Pressable style={styles.socialButton}>
-            <Image
-              source={require("../../assests/imgs/google.png")} 
-              style={styles.socialIcon}
+          {/* Form area */}
+          <View style={styles.formCard}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              placeholder="Enter Your Email"
+              value={email}
+              onChangeText={setEmail}
+              mode="flat"
+              style={styles.input}
+              underlineColor="transparent"
+              contentStyle={styles.inputContent}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
-            <Text style={styles.socialText}>Sign in with Google</Text>
-          </Pressable>
+            {emailError && <Text style={styles.error}>Not Valid Email</Text>}
 
-          {/* Facebook */}
-          <Pressable style={styles.socialButton}>
-            <Image
-              source={require("../../assests/imgs/Tiktok.png")}
-              style={styles.socialIcon}
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              placeholder="Enter Your Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!visible}
+              mode="flat"
+              style={styles.input}
+              underlineColor="transparent"
+              contentStyle={styles.inputContent}
+              right={
+                <TextInput.Icon
+                  icon={visible ? "eye-off" : "eye"}
+                  forceTextInputFocus={false}
+                  onPress={() => setVisible((v) => !v)}
+                />
+              }
             />
-            <Text style={styles.socialText}>Sign in with Tiktok</Text>
-          </Pressable>
-        </View>
-        {/* Sign UP */}
-        <View style={styles.SignUp}>
-          <Text style={styles.SignUpText}>Don’t have an account?</Text>
-          <Pressable onPress={()=>{navigation.navigate("role")}}>
-            <Text style={styles.SignUpbtn}>Sign Up</Text>
-          </Pressable>
-        </View>
+
+            <Pressable onPress={() => navigation.navigate("forgetPassword")}>
+              <Text style={styles.forgetPassword}>Forget Password?</Text>
+            </Pressable>
+
+            <Pressable style={styles.loginButton}>
+              <LinearGradient
+                colors={["#1B2351", "#47C0D2"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.loginButton}
+              >
+                <Text style={styles.loginText}>Login</Text>
+              </LinearGradient>
+            </Pressable>
+
+            <View style={styles.dividerContainer}>
+              <View style={styles.line} />
+              <Text style={styles.textLine}>Or With</Text>
+              <View style={styles.line} />
+            </View>
+
+            <View style={styles.socialContainer}>
+              <Pressable style={styles.socialButton}>
+                <Image
+                  source={require("../../assests/imgs/google.png")}
+                  style={styles.socialIcon}
+                />
+                <Text style={styles.socialText}>Sign in with Google</Text>
+              </Pressable>
+
+              <Pressable style={styles.socialButton}>
+                <Image
+                  source={require("../../assests/imgs/Tiktok.png")}
+                  style={styles.socialIcon}
+                />
+                <Text style={styles.socialText}>Sign in with Tiktok</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.SignUp}>
+              <Text style={styles.SignUpText}>Don’t have an account?</Text>
+              <Pressable onPress={() => navigation.navigate("role")}>
+                <Text style={styles.SignUpbtn}>Sign Up</Text>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -170,9 +162,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: lightColors.background,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+  },
   logoWrapper: {
     alignItems: "center",
-    marginTop: 129,
+    marginTop: 100,
   },
   logo: {
     flexDirection: "row",
@@ -188,15 +185,10 @@ const styles = StyleSheet.create({
   },
   shadow: {
     marginTop: 15,
-    opacity: 1,
   },
-
-  /* form */
   formCard: {
-    position: "absolute",
-    width: "100%",
+    marginTop: 40,
   },
-
   label: {
     marginBottom: 6,
     color: lightColors.primary,
@@ -204,7 +196,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 14,
   },
-
   input: {
     backgroundColor: "#ffffff",
     borderRadius: 8,
@@ -214,33 +205,25 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 6,
-    fontFamily: "Inter",
   },
-
   inputContent: {
     height: 42,
     paddingHorizontal: 6,
     fontFamily: "Inter",
   },
-
   error: {
     color: "red",
     fontSize: 12,
     marginBottom: 10,
   },
-  // ForgetPassword
   forgetPassword: {
     color: lightColors.primary,
     fontWeight: "500",
     fontSize: 13,
-    letterSpacing: 0,
     textAlign: "center",
     textDecorationLine: "underline",
-    textDecorationStyle: "solid",
-    textDecorationColor: lightColors.primary,
     marginTop: 10,
   },
-  // Login
   loginButton: {
     width: "100%",
     height: 44,
@@ -253,15 +236,12 @@ const styles = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: "500",
     fontSize: 16,
-    textAlign: "center",
     color: "#fff",
   },
-  // Line
   dividerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 20,
-    marginTop: 30,
+    marginVertical: 30,
   },
   line: {
     flex: 1,
@@ -274,24 +254,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
     color: "#666666",
-    textAlign: "center",
-    marginBottom: 2,
   },
-  // Social Buttons
   socialContainer: {
-    marginTop: 10,
-    gap: 12, 
+    gap: 12,
   },
   socialButton: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent:'center',
+    justifyContent: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 6,
@@ -306,23 +280,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  SignUp:{
-    flexDirection:'row',
-    justifyContent:'center',
-    marginTop:15,
-    marginBottom:10,
+  SignUp: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 15,
   },
-  SignUpText:{  
-  fontWeight: "500",         
-  fontStyle: "normal",      
-  fontSize: 121216, 
-  color:'#666666'                           
+  SignUpText: {
+    fontWeight: "500",
+    fontSize: 16,
+    color: "#666666",
   },
-  SignUpbtn:{  
-  marginLeft:2,
-  color:lightColors.primary,       
-  fontSize: 16,                        
-  textDecorationLine: "underline",      
- 
-  }
+  SignUpbtn: {
+    marginLeft: 4,
+    color: lightColors.primary,
+    fontSize: 16,
+    textDecorationLine: "underline",
+  },
 });
