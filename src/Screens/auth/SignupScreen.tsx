@@ -63,7 +63,7 @@ export default function RegisterScreen() {
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    return` ${day}/${month}/${year}`;
   };
 
   const onChangeDate = (event: DateTimePickerEvent, selected?: Date) => {
@@ -92,16 +92,15 @@ export default function RegisterScreen() {
         >
           <Pressable
             onPress={() => {
-              if (navigation.canGoBack && navigation.canGoBack()) {
+              if (navigation.canGoBack()) {
                 navigation.goBack();
               } else {
-                navigation.navigate("role" as any);
+                navigation.navigate("role");
               }
             }}
             style={styles.backCircle}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            {/* SVG arrow instead of image */}
             <SvgXml xml={arrowSvg} width={8} height={14} />
           </Pressable>
 
@@ -145,7 +144,7 @@ export default function RegisterScreen() {
               mode="flat"
               style={styles.input}
               contentStyle={styles.inputContent}
-              theme={{ colors: { placeholder: "#999", text: "#111" } }}
+              theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}
             />
 
             {/* Last Name */}
@@ -157,7 +156,7 @@ export default function RegisterScreen() {
               mode="flat"
               style={styles.input}
               contentStyle={styles.inputContent}
-              theme={{ colors: { placeholder: "#999", text: "#111" } }}
+              theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}
             />
 
             {/* Email */}
@@ -171,7 +170,7 @@ export default function RegisterScreen() {
               autoCapitalize="none"
               style={styles.input}
               contentStyle={styles.inputContent}
-              theme={{ colors: { placeholder: "#999", text: "#111" } }}
+              theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}
             />
 
             {/* Phone */}
@@ -186,7 +185,7 @@ export default function RegisterScreen() {
                 keyboardType="phone-pad"
                 style={styles.phoneInput}
                 contentStyle={styles.inputContent}
-                theme={{ colors: { placeholder: "#999", text: "#111" } }}
+                theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}
               />
             </View>
 
@@ -202,6 +201,8 @@ export default function RegisterScreen() {
                 <TextInput.Icon
                   icon={showPassword ? "eye-off" : "eye"}
                   onPress={() => setShowPassword((s) => !s)}
+                  forceTextInputFocus={false}
+                  color="#CDD5DF" 
                 />
               }
               style={styles.input}
@@ -220,6 +221,8 @@ export default function RegisterScreen() {
                 <TextInput.Icon
                   icon={showConfirm ? "eye-off" : "eye"}
                   onPress={() => setShowConfirm((s) => !s)}
+                  forceTextInputFocus={false}
+                  color="#CDD5DF"
                 />
               }
               style={styles.input}
@@ -238,7 +241,7 @@ export default function RegisterScreen() {
                   value={birthday}
                   mode="flat"
                   style={styles.input2}
-                  placeholderTextColor="#999"
+                  placeholderTextColor="#CDD5DF"
                   contentStyle={styles.inputContent}
                   editable={false}
                 />
@@ -270,18 +273,66 @@ export default function RegisterScreen() {
             <View style={styles.gender}>
               <Text style={styles.genderText}>Gender</Text>
               <View style={styles.genderRow}>
-                <Pressable onPress={() => setGender("male")} style={[styles.genderBtn]}>
-                  <Image source={require("../../assests/imgs/male.png")} style={styles.genderIcon} />
+                <Pressable
+                  onPress={() => setGender("male")}
+                  style={{ marginRight: 10 }}
+                >
+                  {gender === "male" ? (
+                    <LinearGradient
+                      colors={["#1B2351", "#47C0D2"]}
+                      style={styles.genderBtn}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                    >
+                      <Image
+                        source={require("../../assests/imgs/male.png")}
+                        style={styles.genderIcon}
+                      />
+                    </LinearGradient>
+                  ) : (
+                    <View
+                      style={[styles.genderBtn, { backgroundColor: "#919193" }]}
+                    >
+                      <Image
+                        source={require("../../assests/imgs/male.png")}
+                        style={styles.genderIcon}
+                      />
+                    </View>
+                  )}
                 </Pressable>
 
-                <Pressable onPress={() => setGender("female")} style={[styles.genderBtn]}>
-                  <Image source={require("../../assests/imgs/famel.png")} style={styles.genderIcon} />
+                <Pressable onPress={() => setGender("female")}>
+                  {gender === "female" ? (
+                    <LinearGradient
+                      colors={["#1B2351", "#47C0D2"]}
+                      style={styles.genderBtn}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                    >
+                      <Image
+                        source={require("../../assests/imgs/famel.png")}
+                        style={styles.genderIcon}
+                      />
+                    </LinearGradient>
+                  ) : (
+                    <View
+                      style={[styles.genderBtn, { backgroundColor: "#919193" }]}
+                    >
+                      <Image
+                        source={require("../../assests/imgs/famel.png")}
+                        style={styles.genderIcon}
+                      />
+                    </View>
+                  )}
                 </Pressable>
               </View>
             </View>
 
             {/* Register */}
-            <Pressable onPress={() => navigation.navigate("verifyAccount" as any)} style={{ marginTop: 18 }}>
+            <Pressable
+              onPress={() => navigation.navigate("verifyAccount" as any)}
+              style={{ marginTop: 18 }}
+            >
               <LinearGradient
                 colors={["#1B2351", "#47C0D2"]}
                 start={{ x: 0, y: 0 }}
@@ -302,12 +353,18 @@ export default function RegisterScreen() {
             {/* Social */}
             <View style={{ marginTop: 8 }}>
               <Pressable style={styles.socialBtn}>
-                <Image source={require("../../assests/imgs/google.png")} style={styles.socialIcon} />
+                <Image
+                  source={require("../../assests/imgs/google.png")}
+                  style={styles.socialIcon}
+                />
                 <Text style={styles.socialText}>Sign in with Google</Text>
               </Pressable>
 
               <Pressable style={[styles.socialBtn, { marginTop: 12 }]}>
-                <Image source={require("../../assests/imgs/Tiktok.png")} style={styles.socialIcon} />
+                <Image
+                  source={require("../../assests/imgs/Tiktok.png")}
+                  style={styles.socialIcon}
+                />
                 <Text style={styles.socialText}>Sign in with TikTok</Text>
               </Pressable>
             </View>
@@ -336,9 +393,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   headerGradient: {
-    height: 110,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    height: 100,
     paddingTop: Platform.OS === "ios" ? 36 : 25,
     paddingHorizontal: 18,
     flexDirection: "row",
@@ -527,8 +582,6 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     paddingVertical: 10,
     paddingHorizontal: 11,
-    marginRight: 10,
-    backgroundColor: "#919193",
   },
   genderIcon: {
     width: 14,
