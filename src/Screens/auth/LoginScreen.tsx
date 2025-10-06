@@ -67,12 +67,7 @@ export default function LoginScreen() {
               />
               <GradientText text="Alluvo" textStyle={styles.text} />
             </View>
-            <SvgXml
-              xml={shadow_SVG}
-              width={237}
-              height={24}
-              style={styles.shadow}
-            />
+            <SvgXml xml={shadow_SVG} width={237} height={24} style={styles.shadow} />
           </View>
 
           {/* Form area */}
