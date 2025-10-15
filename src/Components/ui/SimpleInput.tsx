@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";
-import { lightColors } from "../../theme";
+import { lightColors } from "../../../theme/theme";
 
 interface SimpleInputProps {
   label: string;

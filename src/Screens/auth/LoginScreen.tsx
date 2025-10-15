@@ -11,10 +11,15 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import GradientText from "../../Components/GradientText";
+import { ColorSet } from "../../../types";
+import { typography } from "../../constants/typography";
+import { Typography } from "../../../types";
+import GradientText from "../../Components/ui/GradientText";
 import { SvgXml } from "react-native-svg";
 import { TextInput } from "react-native-paper";
-import { lightColors } from "../../../theme";
+
+import { themeContext } from "../../context/themeContext";
+import { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackParamList } from "../../Navigation/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -42,9 +47,11 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const { theme } = useContext(themeContext)!;
 
   const emailError = email.length === 0;
   const passwordError = password.length === 0;
+  const styles = createStyles(theme, typography);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +74,12 @@ export default function LoginScreen() {
               />
               <GradientText text="Alluvo" textStyle={styles.text} />
             </View>
-            <SvgXml xml={shadow_SVG} width={237} height={24} style={styles.shadow} />
+            <SvgXml
+              xml={shadow_SVG}
+              width={237}
+              height={24}
+              style={styles.shadow}
+            />
           </View>
 
           {/* Form area */}
@@ -157,143 +169,145 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: lightColors.background,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-  },
-  logoWrapper: {
-    alignItems: "center",
-    marginTop: 100,
-  },
-  logo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  text: {
-    fontFamily: "CinzelDecorative-Regular",
-    fontWeight: "400",
-    fontStyle: "normal",
-    fontSize: 40,
-    lineHeight: 40,
-    marginLeft: 10,
-  },
-  shadow: {
-    marginTop: 15,
-  },
-  formCard: {
-    marginTop: 40,
-  },
-  label: {
-    marginBottom: 6,
-    color: lightColors.primary,
-    fontFamily: "Inter",
-    fontWeight: "400",
-    fontSize: 14,
-  },
-  input: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 6,
-  },
-  inputContent: {
-    height: 42,
-    paddingHorizontal: 6,
-    fontFamily: "Inter",
-  },
-  error: {
-    color: "red",
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  forgetPassword: {
-    color: lightColors.primary,
-    fontWeight: "500",
-    fontSize: 13,
-    textAlign: "center",
-    textDecorationLine: "underline",
-    marginTop: 10,
-  },
-  loginButton: {
-    width: "100%",
-    height: 44,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  loginText: {
-    fontFamily: "Inter",
-    fontWeight: "500",
-    fontSize: 16,
-    color: "#fff",
-  },
-  dividerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 30,
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: lightColors.primary,
-  },
-  textLine: {
-    marginHorizontal: 10,
-    fontFamily: "Inter",
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#666666",
-  },
-  socialContainer: {
-    gap: 12,
-  },
-  socialButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    paddingVertical: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 6,
-  },
-  socialIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
-  },
-  socialText: {
-    fontFamily: "Inter",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  SignUp: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 15,
-  },
-  SignUpText: {
-    fontWeight: "500",
-    fontSize: 16,
-    color: "#666666",
-  },
-  SignUpbtn: {
-    marginLeft: 4,
-    color: lightColors.primary,
-    fontSize: 16,
-    textDecorationLine: "underline",
-  },
-});
+function createStyles(t: ColorSet, typography: Typography) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: t.backgroundColors.main,
+    },
+    scrollContainer: {
+      flexGrow: 1,
+      paddingHorizontal: 20,
+      paddingBottom: 30,
+    },
+    logoWrapper: {
+      alignItems: "center",
+      marginTop: 100,
+    },
+    logo: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    text: {
+      fontFamily: typography.titleSpecial.fontFamily,
+      fontWeight: "400",
+      fontStyle: "normal",
+      fontSize: 40,
+      lineHeight: 40,
+      marginLeft: 10,
+    },
+    shadow: {
+      marginTop: 15,
+    },
+    formCard: {
+      marginTop: 40,
+    },
+    label: {
+      marginBottom: 6,
+      color: t.mainColors.primary,
+      fontFamily: typography.bodyMedium.fontFamily,
+      fontWeight: "400",
+      fontSize: 14,
+    },
+    input: {
+      backgroundColor: "#ffffff",
+      borderRadius: 8,
+      marginBottom: 10,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.08,
+      shadowRadius: 4,
+      elevation: 6,
+    },
+    inputContent: {
+      height: 42,
+      paddingHorizontal: 6,
+      fontFamily: "Inter",
+    },
+    error: {
+      color: "red",
+      fontSize: 12,
+      marginBottom: 10,
+    },
+    forgetPassword: {
+      color: t.mainColors.primary,
+      fontWeight: "500",
+      fontSize: 13,
+      textAlign: "center",
+      textDecorationLine: "underline",
+      marginTop: 10,
+    },
+    loginButton: {
+      width: "100%",
+      height: 44,
+      borderRadius: 10,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 10,
+    },
+    loginText: {
+      fontFamily: "Inter",
+      fontWeight: "500",
+      fontSize: 16,
+      color: "#fff",
+    },
+    dividerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginVertical: 30,
+    },
+    line: {
+      flex: 1,
+      height: 1,
+      backgroundColor: t.mainColors.primary,
+    },
+    textLine: {
+      marginHorizontal: 10,
+      fontFamily: "Inter",
+      fontSize: 14,
+      fontWeight: "500",
+      color: "#666666",
+    },
+    socialContainer: {
+      gap: 12,
+    },
+    socialButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#fff",
+      borderRadius: 10,
+      paddingVertical: 10,
+      shadowColor: "#000",
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 6,
+    },
+    socialIcon: {
+      width: 20,
+      height: 20,
+      marginRight: 10,
+    },
+    socialText: {
+      fontFamily: "Inter",
+      fontSize: 16,
+      fontWeight: "500",
+    },
+    SignUp: {
+      flexDirection: "row",
+      justifyContent: "center",
+      marginTop: 15,
+    },
+    SignUpText: {
+      fontWeight: "500",
+      fontSize: 16,
+      color: "#666666",
+    },
+    SignUpbtn: {
+      marginLeft: 4,
+      color: t.mainColors.primary,
+      fontSize: 16,
+      textDecorationLine: "underline",
+    },
+  });
+}

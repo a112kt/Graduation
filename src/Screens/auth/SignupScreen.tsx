@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { lightColors } from "../../../theme";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -22,6 +21,9 @@ import { AuthStackParamList } from "../../Navigation/AuthStack";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { themeContext } from "../../context/themeContext";
+import { useContext } from "react";
+import { ColorSet } from "../../../types";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -30,7 +32,7 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
 
 export default function RegisterScreen() {
   const navigation = useNavigation<RegisterScreenNavigationProp>();
-
+  const { theme } = useContext(themeContext)!;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,7 +65,7 @@ export default function RegisterScreen() {
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
-    return` ${day}/${month}/${year}`;
+    return ` ${day}/${month}/${year}`;
   };
 
   const onChangeDate = (event: DateTimePickerEvent, selected?: Date) => {
@@ -79,6 +81,7 @@ export default function RegisterScreen() {
   const openDatePicker = () => {
     setShowDatePicker(true);
   };
+  const styles = createStyles(theme)
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -202,7 +205,7 @@ export default function RegisterScreen() {
                   icon={showPassword ? "eye-off" : "eye"}
                   onPress={() => setShowPassword((s) => !s)}
                   forceTextInputFocus={false}
-                  color="#CDD5DF" 
+                  color="#CDD5DF"
                 />
               }
               style={styles.input}
@@ -383,10 +386,12 @@ export default function RegisterScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+
+function createStyles(t:ColorSet) {
+  return StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: lightColors.background,
+    backgroundColor: t.backgroundColors.main,
   },
 
   headerWrapper: {
@@ -465,7 +470,7 @@ const styles = StyleSheet.create({
   // Input
   label: {
     fontSize: 14,
-    color: lightColors.primary,
+    color: t.typographyColors.title,
     marginTop: 8,
     marginBottom: 6,
     fontFamily: "Inter",
@@ -570,7 +575,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontStyle: "normal",
     fontSize: 18,
-    color: lightColors.primary,
+    color: t.mainColors.primary,
   },
   genderBtn: {
     width: 27,
@@ -586,7 +591,7 @@ const styles = StyleSheet.create({
   genderIcon: {
     width: 14,
     height: 14,
-    color: lightColors.primary,
+    color:  t.mainColors.primary,
     textAlign: "center",
   },
   // Registerbtn
@@ -612,7 +617,7 @@ const styles = StyleSheet.create({
   divLine: {
     flex: 1,
     height: 1,
-    backgroundColor: lightColors.primary,
+    backgroundColor:  t.backgroundColors.main,
   },
   divText: {
     marginHorizontal: 12,
@@ -662,8 +667,9 @@ const styles = StyleSheet.create({
   },
   SignInbtn: {
     marginLeft: 2,
-    color: lightColors.primary,
+    color: t.mainColors.primary,
     fontSize: 16,
     textDecorationLine: "underline",
   },
 });
+}

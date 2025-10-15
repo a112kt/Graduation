@@ -1,10 +1,23 @@
-import { Dimensions, Image, StyleSheet, Text, View, Animated, Easing } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+} from "react-native";
 import React, { useEffect, useRef } from "react";
-import { lightColors } from "../../theme";
+import { ColorSet } from "../../types";
 import { SvgXml } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import { ThemeContext } from "@react-navigation/native";
+import { themeContext } from "../context/themeContext";
+import { typography } from "../constants/typography";
+import { Typography } from "../../types";
 
 const { width: SCREEN_W } = Dimensions.get("window");
 const SCALE = SCREEN_W / 375;
@@ -22,8 +35,9 @@ const RAW_SVG = `<svg width="375" height="812" viewBox="0 0 375 812" fill="none"
 
 export default function SplashScreen() {
   const navigation = useNavigation<any>();
+  const {theme} =useContext(themeContext)!
 
-  const logoScale = useRef(new Animated.Value(0.6)).current; 
+  const logoScale = useRef(new Animated.Value(0.6)).current;
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleTranslateY = useRef(new Animated.Value(20)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
@@ -74,17 +88,30 @@ export default function SplashScreen() {
           useNativeDriver: true,
         }),
       ]),
-    
+
       Animated.delay(600),
     ]).start(() => {
-  
-      navigation.replace("Auth"); 
+      navigation.replace("Auth");
     });
-  }, [logoScale, logoOpacity, titleTranslateY, titleOpacity, subTranslateY, subOpacity, navigation]);
+  }, [
+    logoScale,
+    logoOpacity,
+    titleTranslateY,
+    titleOpacity,
+    subTranslateY,
+    subOpacity,
+    navigation,
+  ]);
+  const styles =createStyles(theme,typography)
 
   return (
     <View style={styles.container}>
-      <SvgXml xml={RAW_SVG} width={375 * SCALE} height={812 * SCALE} style={styles.svg} />
+      <SvgXml
+        xml={RAW_SVG}
+        width={375 * SCALE}
+        height={812 * SCALE}
+        style={styles.svg}
+      />
 
       <View style={styles.center}>
         <Animated.View
@@ -96,9 +123,16 @@ export default function SplashScreen() {
             },
           ]}
         >
-          <Image source={require("../assests/imgs/AlluvoLogo.png")} style={{ width: 62, height: 65 }} />
+          <Image
+            source={require("../assests/imgs/AlluvoLogo.png")}
+            style={{ width: 62, height: 65 }}
+          />
           <MaskedView maskElement={<Text style={styles.text}>Alluvo</Text>}>
-            <LinearGradient colors={["#1B2351", "#47C0D2"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
+            <LinearGradient
+              colors={["#1B2351", "#47C0D2"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
               <Text style={[styles.text, { opacity: 0 }]}>Alluvo</Text>
             </LinearGradient>
           </MaskedView>
@@ -109,8 +143,7 @@ export default function SplashScreen() {
             transform: [{ translateY: titleTranslateY }],
             opacity: titleOpacity,
           }}
-        >
-        </Animated.View>
+        ></Animated.View>
       </View>
 
       <Animated.View
@@ -121,20 +154,28 @@ export default function SplashScreen() {
           opacity: subOpacity,
         }}
       >
-        <MaskedView maskElement={<Text style={styles.bottomText}>All Your Favorite</Text>}>
-          <LinearGradient colors={["#1B2351", "#47C0D2"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-            <Text style={[styles.bottomText, { opacity: 0 }]}>All Your Favorite</Text>
+        <MaskedView
+          maskElement={<Text style={styles.bottomText}>All Your Favorite</Text>}
+        >
+          <LinearGradient
+            colors={["#1B2351", "#47C0D2"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <Text style={[styles.bottomText, { opacity: 0 }]}>
+              All Your Favorite
+            </Text>
           </LinearGradient>
         </MaskedView>
       </Animated.View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
+function createStyles(t:ColorSet,typography:Typography) {
+  return StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: lightColors.background,
+    backgroundColor: t.backgroundColors.main,
     justifyContent: "space-between",
   },
   svg: {
@@ -150,11 +191,11 @@ const styles = StyleSheet.create({
   logoRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10
+    gap: 10,
   },
   text: {
     fontSize: 40,
-    fontFamily: "CinzelDecorative-Regular",
+    fontFamily: typography.titleSpecial.fontFamily,
     fontWeight: "400",
     lineHeight: 40,
     letterSpacing: 0,
@@ -167,7 +208,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 24,
     textAlign: "center",
-    marginBottom:20,
+    marginBottom: 20,
   },
 });
+}
 

@@ -1,18 +1,30 @@
-import { Image, StyleSheet, Text, View, SafeAreaView, Pressable } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Pressable,
+} from "react-native";
+import { ColorSet } from "../../../types";
 import React from "react";
-import GradientText from "../../Components/GradientText";
-import { lightColors } from "../../../theme";
+import GradientText from "../../Components/ui/GradientText";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../Navigation/AuthStack";
 
+import { themeContext } from "../../context/themeContext";
+import { useContext } from "react";
+
 type roleScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
-  'Register'
+  "Register"
 >;
 const Role = () => {
-    const navigation = useNavigation<roleScreenNavigationProp>()
+  const navigation = useNavigation<roleScreenNavigationProp>();
+    const { theme } = useContext(themeContext)!;
+    const styles=createStyles(theme)
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Logo Section */}
@@ -37,7 +49,12 @@ const Role = () => {
             <Text style={styles.roleTextBrand}>Brand</Text>
           </Pressable>
 
-          <Pressable onPress={()=>{navigation.navigate('Register')}} style={[styles.roleBtnCustomer, { marginTop: 16 }]}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("Register");
+            }}
+            style={[styles.roleBtnCustomer, { marginTop: 16 }]}
+          >
             <LinearGradient
               colors={["#1B2351", "#47C0D2"]}
               start={{ x: 0, y: 0 }}
@@ -55,10 +72,11 @@ const Role = () => {
 
 export default Role;
 
-const styles = StyleSheet.create({
+function createStyles(t:ColorSet) {
+  return StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: lightColors.background,
+    backgroundColor: t.backgroundColors.main,
   },
   logo: {
     marginTop: 60,
@@ -80,7 +98,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   header: {
-    marginBottom: 60, 
+    marginBottom: 60,
     alignItems: "center",
   },
   titleText: {
@@ -107,7 +125,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: lightColors.primary,
+    borderColor: t.separatingColors.border,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -115,7 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter",
     fontSize: 15,
     fontWeight: "500",
-    color: lightColors.primary,
+    color: t.mainColors.primary,
   },
   roleBtnCustomer: {
     width: 235,
@@ -131,5 +149,4 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 });
-
-
+}

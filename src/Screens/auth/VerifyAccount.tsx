@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-import GradientText from "../../Components/GradientText";
+import GradientText from "../../Components/ui/GradientText";
 import { SvgXml } from "react-native-svg";
 import { TextInput as RNTextInput } from "react-native";
 
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 8,
     paddingHorizontal: 2,
-    gap:16
+    gap: 16,
   },
   otpInput: {
     width: 54,
