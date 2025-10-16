@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeBrand from "../Screens/brand/HomeBrand";
+import HomeBrand from "../features/brand/screens/HomeBrand";
 
 export type BrandStackParamList = {
   HomeBrand: undefined;

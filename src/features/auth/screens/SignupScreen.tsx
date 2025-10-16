@@ -14,11 +14,11 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { lightColors } from "../../../theme";
+import { lightColors } from "../../../../theme";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../../Navigation/AuthStack";
+import { AuthStackParamList } from "../../../Navigation/AuthStack";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -63,7 +63,7 @@ export default function RegisterScreen() {
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
-    return` ${day}/${month}/${year}`;
+    return ` ${day}/${month}/${year}`;
   };
 
   const onChangeDate = (event: DateTimePickerEvent, selected?: Date) => {
@@ -121,13 +121,13 @@ export default function RegisterScreen() {
           {/* Avatar */}
           <View style={styles.avatarWrapper}>
             <Image
-              source={require("../../assests/imgs/Avater.png")}
+              source={require("../../../assests/imgs/Avater.png")}
               style={styles.avatarImage}
               resizeMode="cover"
             />
             <TouchableOpacity style={styles.avatarAdd}>
               <Image
-                source={require("../../assests/imgs/plus.png")}
+                source={require("../../../assests/imgs/plus.png")}
                 style={{ width: 16, height: 16 }}
               />
             </TouchableOpacity>
@@ -202,7 +202,7 @@ export default function RegisterScreen() {
                   icon={showPassword ? "eye-off" : "eye"}
                   onPress={() => setShowPassword((s) => !s)}
                   forceTextInputFocus={false}
-                  color="#CDD5DF" 
+                  color="#CDD5DF"
                 />
               }
               style={styles.input}
@@ -253,7 +253,7 @@ export default function RegisterScreen() {
                 activeOpacity={0.8}
               >
                 <Image
-                  source={require("../../assests/imgs/calender.png")}
+                  source={require("../../../assests/imgs/calender.png")}
                   style={styles.icon}
                 />
               </TouchableOpacity>
@@ -285,7 +285,7 @@ export default function RegisterScreen() {
                       end={{ x: 1, y: 0 }}
                     >
                       <Image
-                        source={require("../../assests/imgs/male.png")}
+                        source={require("../../../assests/imgs/male.png")}
                         style={styles.genderIcon}
                       />
                     </LinearGradient>
@@ -294,7 +294,7 @@ export default function RegisterScreen() {
                       style={[styles.genderBtn, { backgroundColor: "#919193" }]}
                     >
                       <Image
-                        source={require("../../assests/imgs/male.png")}
+                        source={require("../../../assests/imgs/male.png")}
                         style={styles.genderIcon}
                       />
                     </View>
@@ -310,7 +310,7 @@ export default function RegisterScreen() {
                       end={{ x: 1, y: 0 }}
                     >
                       <Image
-                        source={require("../../assests/imgs/famel.png")}
+                        source={require("../../../assests/imgs/famel.png")}
                         style={styles.genderIcon}
                       />
                     </LinearGradient>
@@ -319,7 +319,7 @@ export default function RegisterScreen() {
                       style={[styles.genderBtn, { backgroundColor: "#919193" }]}
                     >
                       <Image
-                        source={require("../../assests/imgs/famel.png")}
+                        source={require("../../../assests/imgs/famel.png")}
                         style={styles.genderIcon}
                       />
                     </View>
@@ -354,7 +354,7 @@ export default function RegisterScreen() {
             <View style={{ marginTop: 8 }}>
               <Pressable style={styles.socialBtn}>
                 <Image
-                  source={require("../../assests/imgs/google.png")}
+                  source={require("../../../assests/imgs/google.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with Google</Text>
@@ -362,7 +362,7 @@ export default function RegisterScreen() {
 
               <Pressable style={[styles.socialBtn, { marginTop: 12 }]}>
                 <Image
-                  source={require("../../assests/imgs/Tiktok.png")}
+                  source={require("../../../assests/imgs/Tiktok.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with TikTok</Text>

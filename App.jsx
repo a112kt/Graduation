@@ -5,6 +5,11 @@ import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/Navigation/AppNavigator";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 
 const customFonts = {
   "CinzelDecorative-Regular": require("./src/assests/fonts/CinzelDecorative-Regular.ttf"),
@@ -14,6 +19,7 @@ const customFonts = {
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = React.useState(false);
+  const queryClient = new QueryClient()
 
   React.useEffect(() => {
     let mounted = true;
@@ -64,11 +70,13 @@ export default function App() {
   };
 
   return (
-    <PaperProvider theme={theme}>
+   <QueryClientProvider client={queryClient}>
+     <PaperProvider theme={theme}>
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
-    </PaperProvider>
+     </PaperProvider>
+    </QueryClientProvider>
   );
 }
 

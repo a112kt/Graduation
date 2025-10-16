@@ -11,14 +11,15 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import GradientText from "../../Components/GradientText";
+import GradientText from "../../../Components/GradientText";
 import { SvgXml } from "react-native-svg";
 import { TextInput } from "react-native-paper";
-import { lightColors } from "../../../theme";
+import { lightColors } from "../../../../theme";
 import { useNavigation } from "@react-navigation/native";
-import { AuthStackParamList } from "../../Navigation/AuthStack";
+import { AuthStackParamList } from "../../../Navigation/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
+import { useLogin } from "../hooks/useLogin";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -42,7 +43,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-
+  const { error, isPending, data, mutate } = useLogin();
   const emailError = email.length === 0;
   const passwordError = password.length === 0;
 
@@ -62,12 +63,17 @@ export default function LoginScreen() {
           <View style={styles.logoWrapper}>
             <View style={styles.logo}>
               <Image
-                source={require("../../assests/imgs/AlluvoLogo.png")}
+                source={require("../../../assests/imgs/AlluvoLogo.png")}
                 style={{ width: 62, height: 65 }}
               />
               <GradientText text="Alluvo" textStyle={styles.text} />
             </View>
-            <SvgXml xml={shadow_SVG} width={237} height={24} style={styles.shadow} />
+            <SvgXml
+              xml={shadow_SVG}
+              width={237}
+              height={24}
+              style={styles.shadow}
+            />
           </View>
 
           {/* Form area */}
@@ -109,7 +115,10 @@ export default function LoginScreen() {
               <Text style={styles.forgetPassword}>Forget Password?</Text>
             </Pressable>
 
-            <Pressable style={styles.loginButton}>
+            <Pressable style={styles.loginButton} onPress={()=>{
+              mutate({email,password})
+              console.log("clicked")
+            }}>
               <LinearGradient
                 colors={["#1B2351", "#47C0D2"]}
                 start={{ x: 0, y: 0 }}
@@ -129,7 +138,7 @@ export default function LoginScreen() {
             <View style={styles.socialContainer}>
               <Pressable style={styles.socialButton}>
                 <Image
-                  source={require("../../assests/imgs/google.png")}
+                  source={require("../../../assests/imgs/google.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with Google</Text>
@@ -137,7 +146,7 @@ export default function LoginScreen() {
 
               <Pressable style={styles.socialButton}>
                 <Image
-                  source={require("../../assests/imgs/Tiktok.png")}
+                  source={require("../../../assests/imgs/Tiktok.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with Tiktok</Text>
@@ -146,7 +155,11 @@ export default function LoginScreen() {
 
             <View style={styles.SignUp}>
               <Text style={styles.SignUpText}>Don’t have an account?</Text>
-              <Pressable onPress={() => navigation.navigate("role")}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Register");
+                }}
+              >
                 <Text style={styles.SignUpbtn}>Sign Up</Text>
               </Pressable>
             </View>

@@ -1,24 +1,31 @@
-import { Image, StyleSheet, Text, View, SafeAreaView, Pressable } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Pressable,
+} from "react-native";
 import React from "react";
-import GradientText from "../../Components/GradientText";
-import { lightColors } from "../../../theme";
+import GradientText from "../../../Components/GradientText";
+import { lightColors } from "../../../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../../Navigation/AuthStack";
+import { AuthStackParamList } from "../../../Navigation/AuthStack";
 
 type roleScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
-  'Register'
+  "Register"
 >;
 const Role = () => {
-    const navigation = useNavigation<roleScreenNavigationProp>()
+  const navigation = useNavigation<roleScreenNavigationProp>();
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Logo Section */}
       <View style={styles.logo}>
         <Image
-          source={require("../../assests/imgs/AlluvoLogo.png")}
+          source={require("../../../assests/imgs/AlluvoLogo.png")}
           style={{ width: 37, height: 37 }}
         />
         <GradientText text="Alluvo" textStyle={styles.text} />
@@ -37,7 +44,12 @@ const Role = () => {
             <Text style={styles.roleTextBrand}>Brand</Text>
           </Pressable>
 
-          <Pressable onPress={()=>{navigation.navigate('Register')}} style={[styles.roleBtnCustomer, { marginTop: 16 }]}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("Register");
+            }}
+            style={[styles.roleBtnCustomer, { marginTop: 16 }]}
+          >
             <LinearGradient
               colors={["#1B2351", "#47C0D2"]}
               start={{ x: 0, y: 0 }}
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   header: {
-    marginBottom: 60, 
+    marginBottom: 60,
     alignItems: "center",
   },
   titleText: {
@@ -131,5 +143,3 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 });
-
-

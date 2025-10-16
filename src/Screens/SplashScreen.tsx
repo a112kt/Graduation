@@ -1,4 +1,12 @@
-import { Dimensions, Image, StyleSheet, Text, View, Animated, Easing } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+} from "react-native";
 import React, { useEffect, useRef } from "react";
 import { lightColors } from "../../theme";
 import { SvgXml } from "react-native-svg";
@@ -23,7 +31,7 @@ const RAW_SVG = `<svg width="375" height="812" viewBox="0 0 375 812" fill="none"
 export default function SplashScreen() {
   const navigation = useNavigation<any>();
 
-  const logoScale = useRef(new Animated.Value(0.6)).current; 
+  const logoScale = useRef(new Animated.Value(0.6)).current;
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleTranslateY = useRef(new Animated.Value(20)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
@@ -74,17 +82,29 @@ export default function SplashScreen() {
           useNativeDriver: true,
         }),
       ]),
-    
+
       Animated.delay(600),
     ]).start(() => {
-  
-      navigation.replace("Auth"); 
+      navigation.replace("Auth");
     });
-  }, [logoScale, logoOpacity, titleTranslateY, titleOpacity, subTranslateY, subOpacity, navigation]);
+  }, [
+    logoScale,
+    logoOpacity,
+    titleTranslateY,
+    titleOpacity,
+    subTranslateY,
+    subOpacity,
+    navigation,
+  ]);
 
   return (
     <View style={styles.container}>
-      <SvgXml xml={RAW_SVG} width={375 * SCALE} height={812 * SCALE} style={styles.svg} />
+      <SvgXml
+        xml={RAW_SVG}
+        width={375 * SCALE}
+        height={812 * SCALE}
+        style={styles.svg}
+      />
 
       <View style={styles.center}>
         <Animated.View
@@ -96,9 +116,16 @@ export default function SplashScreen() {
             },
           ]}
         >
-          <Image source={require("../assests/imgs/AlluvoLogo.png")} style={{ width: 62, height: 65 }} />
+          <Image
+            source={require("../assests/imgs/AlluvoLogo.png")}
+            style={{ width: 62, height: 65 }}
+          />
           <MaskedView maskElement={<Text style={styles.text}>Alluvo</Text>}>
-            <LinearGradient colors={["#1B2351", "#47C0D2"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
+            <LinearGradient
+              colors={["#1B2351", "#47C0D2"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
               <Text style={[styles.text, { opacity: 0 }]}>Alluvo</Text>
             </LinearGradient>
           </MaskedView>
@@ -109,8 +136,7 @@ export default function SplashScreen() {
             transform: [{ translateY: titleTranslateY }],
             opacity: titleOpacity,
           }}
-        >
-        </Animated.View>
+        ></Animated.View>
       </View>
 
       <Animated.View
@@ -121,9 +147,17 @@ export default function SplashScreen() {
           opacity: subOpacity,
         }}
       >
-        <MaskedView maskElement={<Text style={styles.bottomText}>All Your Favorite</Text>}>
-          <LinearGradient colors={["#1B2351", "#47C0D2"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-            <Text style={[styles.bottomText, { opacity: 0 }]}>All Your Favorite</Text>
+        <MaskedView
+          maskElement={<Text style={styles.bottomText}>All Your Favorite</Text>}
+        >
+          <LinearGradient
+            colors={["#1B2351", "#47C0D2"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <Text style={[styles.bottomText, { opacity: 0 }]}>
+              All Your Favorite
+            </Text>
           </LinearGradient>
         </MaskedView>
       </Animated.View>
@@ -150,7 +184,7 @@ const styles = StyleSheet.create({
   logoRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10
+    gap: 10,
   },
   text: {
     fontSize: 40,
@@ -167,7 +201,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 24,
     textAlign: "center",
-    marginBottom:20,
+    marginBottom: 20,
   },
 });
-
