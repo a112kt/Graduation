@@ -6,13 +6,19 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
+<<<<<<< HEAD:src/Screens/auth/role.tsx
 import { ColorSet } from "../../../types";
 import React from "react";
 import GradientText from "../../Components/ui/GradientText";
+=======
+import React from "react";
+import GradientText from "../../../Components/GradientText";
+import { lightColors } from "../../../../theme";
+>>>>>>> Feature/axios:src/features/auth/screens/role.tsx
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../../Navigation/AuthStack";
+import { AuthStackParamList } from "../../../Navigation/AuthStack";
 
 import { themeContext } from "../../context/themeContext";
 import { useContext } from "react";
@@ -23,14 +29,17 @@ type roleScreenNavigationProp = NativeStackNavigationProp<
 >;
 const Role = () => {
   const navigation = useNavigation<roleScreenNavigationProp>();
+<<<<<<< HEAD:src/Screens/auth/role.tsx
     const { theme } = useContext(themeContext)!;
     const styles=createStyles(theme)
+=======
+>>>>>>> Feature/axios:src/features/auth/screens/role.tsx
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Logo Section */}
       <View style={styles.logo}>
         <Image
-          source={require("../../assests/imgs/AlluvoLogo.png")}
+          source={require("../../../assests/imgs/AlluvoLogo.png")}
           style={{ width: 37, height: 37 }}
         />
         <GradientText text="Alluvo" textStyle={styles.text} />
@@ -149,4 +158,7 @@ function createStyles(t:ColorSet) {
     color: "#fff",
   },
 });
+<<<<<<< HEAD:src/Screens/auth/role.tsx
 }
+=======
+>>>>>>> Feature/axios:src/features/auth/screens/role.tsx

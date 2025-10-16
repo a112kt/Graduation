@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../Screens/user/HomeUser";
-import ProfileScreen from "../Screens/user/ProfileUser";
+import HomeScreen from "../features/user/screens/HomeUser";
+import ProfileScreen from "../features/user/screens/ProfileUser";
 
 export type UserStackParamList = {
   Home: undefined;

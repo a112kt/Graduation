@@ -14,10 +14,14 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
+<<<<<<< HEAD:src/Screens/auth/SignupScreen.tsx
+=======
+import { lightColors } from "../../../../theme";
+>>>>>>> Feature/axios:src/features/auth/screens/SignupScreen.tsx
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../../Navigation/AuthStack";
+import { AuthStackParamList } from "../../../Navigation/AuthStack";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -124,13 +128,13 @@ export default function RegisterScreen() {
           {/* Avatar */}
           <View style={styles.avatarWrapper}>
             <Image
-              source={require("../../assests/imgs/Avater.png")}
+              source={require("../../../assests/imgs/Avater.png")}
               style={styles.avatarImage}
               resizeMode="cover"
             />
             <TouchableOpacity style={styles.avatarAdd}>
               <Image
-                source={require("../../assests/imgs/plus.png")}
+                source={require("../../../assests/imgs/plus.png")}
                 style={{ width: 16, height: 16 }}
               />
             </TouchableOpacity>
@@ -256,7 +260,7 @@ export default function RegisterScreen() {
                 activeOpacity={0.8}
               >
                 <Image
-                  source={require("../../assests/imgs/calender.png")}
+                  source={require("../../../assests/imgs/calender.png")}
                   style={styles.icon}
                 />
               </TouchableOpacity>
@@ -288,7 +292,7 @@ export default function RegisterScreen() {
                       end={{ x: 1, y: 0 }}
                     >
                       <Image
-                        source={require("../../assests/imgs/male.png")}
+                        source={require("../../../assests/imgs/male.png")}
                         style={styles.genderIcon}
                       />
                     </LinearGradient>
@@ -297,7 +301,7 @@ export default function RegisterScreen() {
                       style={[styles.genderBtn, { backgroundColor: "#919193" }]}
                     >
                       <Image
-                        source={require("../../assests/imgs/male.png")}
+                        source={require("../../../assests/imgs/male.png")}
                         style={styles.genderIcon}
                       />
                     </View>
@@ -313,7 +317,7 @@ export default function RegisterScreen() {
                       end={{ x: 1, y: 0 }}
                     >
                       <Image
-                        source={require("../../assests/imgs/famel.png")}
+                        source={require("../../../assests/imgs/famel.png")}
                         style={styles.genderIcon}
                       />
                     </LinearGradient>
@@ -322,7 +326,7 @@ export default function RegisterScreen() {
                       style={[styles.genderBtn, { backgroundColor: "#919193" }]}
                     >
                       <Image
-                        source={require("../../assests/imgs/famel.png")}
+                        source={require("../../../assests/imgs/famel.png")}
                         style={styles.genderIcon}
                       />
                     </View>
@@ -357,7 +361,7 @@ export default function RegisterScreen() {
             <View style={{ marginTop: 8 }}>
               <Pressable style={styles.socialBtn}>
                 <Image
-                  source={require("../../assests/imgs/google.png")}
+                  source={require("../../../assests/imgs/google.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with Google</Text>
@@ -365,7 +369,7 @@ export default function RegisterScreen() {
 
               <Pressable style={[styles.socialBtn, { marginTop: 12 }]}>
                 <Image
-                  source={require("../../assests/imgs/Tiktok.png")}
+                  source={require("../../../assests/imgs/Tiktok.png")}
                   style={styles.socialIcon}
                 />
                 <Text style={styles.socialText}>Sign in with TikTok</Text>
@@ -672,4 +676,7 @@ function createStyles(t:ColorSet) {
     textDecorationLine: "underline",
   },
 });
+<<<<<<< HEAD:src/Screens/auth/SignupScreen.tsx
 }
+=======
+>>>>>>> Feature/axios:src/features/auth/screens/SignupScreen.tsx

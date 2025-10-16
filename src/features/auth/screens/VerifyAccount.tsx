@@ -13,7 +13,11 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+<<<<<<< HEAD:src/Screens/auth/VerifyAccount.tsx
 import GradientText from "../../Components/ui/GradientText";
+=======
+import GradientText from "../../../Components/GradientText";
+>>>>>>> Feature/axios:src/features/auth/screens/VerifyAccount.tsx
 import { SvgXml } from "react-native-svg";
 import { TextInput as RNTextInput } from "react-native";
 
@@ -163,7 +167,7 @@ export default function VerifyOtpScreen() {
 
       <View style={styles.container}>
         <Image
-          source={require("../../assests/imgs/verify.png")}
+          source={require("../../../assests/imgs/verify.png")}
           style={styles.illustration}
           resizeMode="contain"
         />

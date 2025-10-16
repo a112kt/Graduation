@@ -4,6 +4,7 @@ import { View,ActivityIndicator } from "react-native";
 import ThemeProvider from "./src/context/themeContext";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/Navigation/AppNavigator";
+<<<<<<< HEAD
 import { 
   Inter_400Regular,
   Inter_500Medium,
@@ -33,6 +34,23 @@ export default function App() {
     Lato_400Regular,
     Lato_500Medium,
   });
+=======
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
+
+const customFonts = {
+  "CinzelDecorative-Regular": require("./src/assests/fonts/CinzelDecorative-Regular.ttf"),
+  "CinzelDecorative-Bold": require("./src/assests/fonts/CinzelDecorative-Bold.ttf"),
+  "CinzelDecorative-Black": require("./src/assests/fonts/CinzelDecorative-Black.ttf"),
+};
+
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = React.useState(false);
+  const queryClient = new QueryClient()
+>>>>>>> Feature/axios
 
   if (!loaded &!error) {
     return (
@@ -43,10 +61,20 @@ export default function App() {
   }
 
   return (
+<<<<<<< HEAD
     <ThemeProvider>
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
     </ThemeProvider>
+=======
+   <QueryClientProvider client={queryClient}>
+     <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+     </PaperProvider>
+    </QueryClientProvider>
+>>>>>>> Feature/axios
   );
 }

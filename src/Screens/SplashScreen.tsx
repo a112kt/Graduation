@@ -102,7 +102,6 @@ export default function SplashScreen() {
     subOpacity,
     navigation,
   ]);
-  const styles =createStyles(theme,typography)
 
   return (
     <View style={styles.container}>
@@ -210,6 +209,4 @@ function createStyles(t:ColorSet,typography:Typography) {
     textAlign: "center",
     marginBottom: 20,
   },
-});
-}
-
+})}
