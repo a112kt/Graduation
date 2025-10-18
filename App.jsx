@@ -9,7 +9,9 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from '@tanstack/react-query'
+} from '@tanstack/react-query';
+import { store } from "./src/Redux/store";
+import { Provider } from "react-redux";
 
 const customFonts = {
   "CinzelDecorative-Regular": require("./src/assests/fonts/CinzelDecorative-Regular.ttf"),
@@ -70,13 +72,15 @@ export default function App() {
   };
 
   return (
-   <QueryClientProvider client={queryClient}>
-     <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-     </PaperProvider>
-    </QueryClientProvider>
+   <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </PaperProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 
