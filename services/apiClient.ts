@@ -1,8 +1,10 @@
 import axios from "axios";
 export const apiCall = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com/',
+  baseURL: 'https://alluvo-api-stating.runasp.net',
   timeout: 1000,
-  headers: {"Content-Type": "application/json"}
+  headers: {"Content-Type": "application/json",
+    "Accept":"text/plain"
+  }
 });   
 apiCall.interceptors.request.use((config:any) => {
   const token = ""; 

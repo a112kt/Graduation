@@ -17,6 +17,10 @@ const customFonts = {
   "CinzelDecorative-Regular": require("./src/assests/fonts/CinzelDecorative-Regular.ttf"),
   "CinzelDecorative-Bold": require("./src/assests/fonts/CinzelDecorative-Bold.ttf"),
   "CinzelDecorative-Black": require("./src/assests/fonts/CinzelDecorative-Black.ttf"),
+  "Poppins-Regular": require("./src/assests/fonts/Poppins-Regular.ttf"),
+  "Poppins-Bold": require("./src/assests/fonts/Poppins-Bold.ttf"),
+  "Poppins-Black": require("./src/assests/fonts/Poppins-Black.ttf"),
+  "Poppins-SemiBold": require("./src/assests/fonts/Poppins-SemiBold.ttf"),
 };
 
 export default function App() {

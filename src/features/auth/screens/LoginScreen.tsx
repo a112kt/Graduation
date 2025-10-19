@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -10,7 +10,11 @@ import {
   Pressable,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import GradientText from "../../../Components/GradientText";
 import { SvgXml } from "react-native-svg";
 import { TextInput } from "react-native-paper";
@@ -20,15 +24,24 @@ import { AuthStackParamList } from "../../../Navigation/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLogin } from "../hooks/useLogin";
+import { useAppDispatch } from "../../../Redux/store";
+import { setToken } from "../../../Redux/slices/authSlice";
+import { RootStackParamList } from "../../../Navigation/AppNavigator";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
-  AuthStackParamList,
-  "Login",
+  RootStackParamList,
+  "Auth",
   "role"
 >;
-
+type LoginScreenProps = NativeStackNavigationProp<
+  AuthStackParamList,
+  "Register",
+  "forgetPassword"
+>;
 export default function LoginScreen() {
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const mainNavigation = useNavigation<LoginScreenNavigationProp>();
+  const navigation = useNavigation<LoginScreenProps>();
+  const dispatch = useAppDispatch();
 
   const shadow_SVG = `<svg width="237" height="24" viewBox="0 0 237 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M237 12C237 18.6274 183.946 24 118.5 24C53.0543 24 0 18.6274 0 12C0 5.37258 53.0543 0 118.5 0C183.946 0 237 5.37258 237 12Z" fill="url(#paint0_radial_172_1751)"/>
@@ -43,9 +56,36 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const { error, isPending, data, mutate } = useLogin();
+  const { error, isPending, data, mutate, isSuccess } = useLogin();
+
   const emailError = email.length === 0;
   const passwordError = password.length === 0;
+  const myform = useFormik({
+    validateOnMount: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .required(`Email Is Required`)
+        .email(`Invalid Email Format`),
+      password: Yup.string()
+        .required(`Password IS Rrequired`)
+        .min(7, `Password must be at least 7 characters long`),
+    }),
+    onSubmit: (values) => {
+      // loginRequest(values);
+      mutate(values);
+      console.log(values);
+    },
+  });
+  useEffect(() => {
+    if (!isSuccess) return;
+    // console.log(data.data.token);
+    dispatch(setToken(data.data.token));
+    mainNavigation.replace("User");
+  }, [isSuccess]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,8 +121,9 @@ export default function LoginScreen() {
             <Text style={styles.label}>Email</Text>
             <TextInput
               placeholder="Enter Your Email"
-              value={email}
-              onChangeText={setEmail}
+              value={myform.values.email}
+              onChangeText={myform.handleChange("email")}
+              onBlur={myform.handleBlur("email")}
               mode="flat"
               style={styles.input}
               underlineColor="transparent"
@@ -90,13 +131,24 @@ export default function LoginScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
             />
-            {emailError && <Text style={styles.error}>Not Valid Email</Text>}
+
+            <Text
+              style={[
+                styles.error,
+                {
+                  opacity: myform.errors.email && myform.touched.email ? 1 : 0,
+                },
+              ]}
+            >
+              {myform.errors.email}
+            </Text>
 
             <Text style={styles.label}>Password</Text>
             <TextInput
               placeholder="Enter Your Password"
-              value={password}
-              onChangeText={setPassword}
+              value={myform.values.password}
+              onChangeText={myform.handleChange("password")}
+              onBlur={myform.handleBlur("password")}
               secureTextEntry={!visible}
               mode="flat"
               style={styles.input}
@@ -110,24 +162,59 @@ export default function LoginScreen() {
                 />
               }
             />
+            <Text
+              style={[
+                styles.error,
+                { marginBottom: 0 },
+                {
+                  opacity:
+                    myform.errors.password && myform.touched.password ? 1 : 0,
+                },
+              ]}
+            >
+              {myform.errors.password}
+            </Text>
 
             <Pressable onPress={() => navigation.navigate("forgetPassword")}>
               <Text style={styles.forgetPassword}>Forget Password?</Text>
             </Pressable>
 
-            <Pressable style={styles.loginButton} onPress={()=>{
-              mutate({email,password})
-              console.log("clicked")
-            }}>
+            <TouchableOpacity
+              style={styles.loginButton}
+              disabled={!myform.isValid}
+              onPress={() => {
+                // mutate({ email, password });
+                console.log("clicked");
+                myform.handleSubmit();
+              }}
+            >
               <LinearGradient
                 colors={["#1B2351", "#47C0D2"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.loginButton}
+                style={[
+                  styles.loginButton,
+                  { opacity: myform.isValid ? 1 : 0.6 },
+                ]}
               >
-                <Text style={styles.loginText}>Login</Text>
+                {isPending ? (
+                  <ActivityIndicator size="small" color="#FFFFFF" />
+                ) : (
+                  <Text style={styles.loginText}>Login</Text>
+                )}
               </LinearGradient>
-            </Pressable>
+            </TouchableOpacity>
+            {/* server messages */}
+            {error && (
+              <Text
+                style={[
+                  styles.errorText,
+                  { textAlign: "center", marginTop: 8 },
+                ]}
+              >
+                {error.response.data.message.en}
+              </Text>
+            )}
 
             <View style={styles.dividerContainer}>
               <View style={styles.line} />
@@ -254,7 +341,7 @@ const styles = StyleSheet.create({
   dividerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 30,
+    marginVertical: 20,
   },
   line: {
     flex: 1,
@@ -309,4 +396,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecorationLine: "underline",
   },
+  errorText: { color: "red", fontSize: 12, marginTop: 2 },
 });

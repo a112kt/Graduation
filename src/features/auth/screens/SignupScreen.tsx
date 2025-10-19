@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   SafeAreaView,
   View,
@@ -27,23 +27,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../Redux/store";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import {
-  RegisterData,
-  resetRegisterState,
-  registerUser,
-} from "../../../Redux/slices/registerSlice";
 
+import { useRegister } from "../hooks/useRegister";
+type RegisterData = {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  PhoneNumber: string;
+  Password: string;
+  DateOfBirth: string;
+  Gender: string;
+  ProfileImage?: string;
+};
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
   "Login"
 >;
 
+
 export default function RegisterScreen() {
+  const { mutate, error, isPending, isSuccess, data } = useRegister();
+  const formRef = useRef<any>(null);
   const navigation = useNavigation<RegisterScreenNavigationProp>();
+
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, success, error, message } = useSelector(
-    (state: RootState) => state.register
-  );
 
   // SVGs
   const headerWave = `<svg width="375" height="100" viewBox="0 0 375 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +125,7 @@ export default function RegisterScreen() {
     PhoneNumber: "",
     Password: "",
     DateOfBirth: "",
-    Gender: "Female",
+    Gender: "male",
     ProfileImage: "",
   };
 
@@ -174,42 +181,42 @@ export default function RegisterScreen() {
     }
   };
 
-  const handleSubmit = (values: any, dispatch: any) => {
-  const form = new FormData();
-  form.append("FirstName", values.FirstName);
-  form.append("LastName", values.LastName);
-  form.append("Email", values.Email);
-  form.append("PhoneNumber", `+20${values.PhoneNumber}`);
-  form.append("Password", values.Password);
-  form.append("DateOfBirth", values.DateOfBirth);
-  form.append("Gender", values.Gender);
+  // const handleSubmit = (values: any, dispatch: any) => {
+  //   const form = new FormData();
+  //   form.append("FirstName", values.FirstName);
+  //   form.append("LastName", values.LastName);
+  //   form.append("Email", values.Email);
+  //   form.append("PhoneNumber", `+20${values.PhoneNumber}`);
+  //   form.append("Password", values.Password);
+  //   form.append("DateOfBirth", values.DateOfBirth);
+  //   form.append("Gender", values.Gender);
 
-  if (values.ProfileImage) {
-    const uri = values.ProfileImage;
-    const fileName = uri.split("/").pop() || "profile.jpg";
-    const fileType = "image/jpeg";
+  //   if (values.ProfileImage) {
+  //     const uri = values.ProfileImage;
+  //     const fileName = uri.split("/").pop() || "profile.jpg";
+  //     const fileType = "image/jpeg";
 
-    form.append("ProfileImage", {
-      uri,
-      name: fileName,
-      type: fileType,
-    } as any);
-  }
+  //     form.append("ProfileImage", {
+  //       uri,
+  //       name: fileName,
+  //       type: fileType,
+  //     } as any);
+  //   }
 
-  console.log("🚀 Sending FormData...");
-  dispatch(registerUser(form as any));
-};
-
+  //   console.log("🚀 Sending FormData...");
+  //   dispatch(registerUser(form as any));
+  // };
 
   useEffect(() => {
-    if (success) {
-      const t = setTimeout(() => {
-        dispatch(resetRegisterState());
-        navigation.navigate("Login");
-      }, 1500);
-      return () => clearTimeout(t);
+    if (isSuccess) {
+      console.log("data inside signup ===>>>>  " + data);
+      if (JSON.parse(data).success) {
+        navigation.navigate("verifyAccount", {
+          email: formRef.current?.values.Email,
+        });
+      }
     }
-  }, [success, dispatch, navigation]);
+  }, [isSuccess, dispatch, navigation]);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -246,10 +253,11 @@ export default function RegisterScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Formik
+            innerRef={formRef}
             initialValues={initialValues}
             validationSchema={RegisterSchema}
             validateOnMount={true}
-           onSubmit={(values) => handleSubmit(values, dispatch)}  
+            onSubmit={(values) => mutate(values)} // submit register
           >
             {({
               handleChange,
@@ -262,7 +270,7 @@ export default function RegisterScreen() {
               isValid,
               dirty,
             }) => {
-              const disabled = !isValid || !dirty || loading;
+              const disabled = !isValid || !dirty || isPending;
               return (
                 <>
                   {/* Avatar */}
@@ -300,7 +308,7 @@ export default function RegisterScreen() {
                     mode="flat"
                     style={styles.input}
                     contentStyle={styles.inputContent}
-                    theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}  
+                    theme={{ colors: { placeholder: "#CDD5DF", text: "#111" } }}
                   />
                   {touched.FirstName && errors.FirstName && (
                     <Text style={styles.errorText}>{errors.FirstName}</Text>
@@ -558,7 +566,7 @@ export default function RegisterScreen() {
                       ]}
                     >
                       <Text style={styles.registerText}>
-                        {loading ? "Registering..." : "Register"}
+                        {isPending ? "Registering..." : "Register"}
                       </Text>
                     </LinearGradient>
                   </Pressable>
@@ -571,17 +579,17 @@ export default function RegisterScreen() {
                         { textAlign: "center", marginTop: 8 },
                       ]}
                     >
-                      {error}
+                      {error?.message}
                     </Text>
                   )}
-                  {success && (
+                  {(data ? !JSON.parse(data).success : false) && (
                     <Text
                       style={[
                         styles.errorText,
-                        { color: "green", textAlign: "center", marginTop: 8 },
+                        { textAlign: "center", marginTop: 8 },
                       ]}
                     >
-                      {(message && (message as any).en) || String(message)}
+                      {data ? JSON.parse(data).errors[0]?.en : ""}
                     </Text>
                   )}
 
@@ -691,7 +699,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
-   
   },
   avatarImage: {
     width: "100%",

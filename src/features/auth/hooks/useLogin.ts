@@ -5,10 +5,10 @@ export function useLogin() {
         mutationFn:login,
         onSuccess:(data)=>{
             console.log("responnse  success and data is ")
-            console.log(data)
+            // console.log(data.data.token)
         },
-        onError:(error)=>{
-            console.log("response failed with error "+error)
+        onError:(error:any)=>{
+            console.log(error.response.data?.message.en)
         }
     })
 }
