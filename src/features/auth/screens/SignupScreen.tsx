@@ -98,6 +98,7 @@ export default function RegisterScreen() {
 
     Password: Yup.string()
       .min(6, "Password must be at least 6 characters")
+      .matches(/\d/, "Password must contain at least one number")
       .required("Password is required"),
 
     ConfirmPassword: Yup.string()
@@ -175,31 +176,30 @@ export default function RegisterScreen() {
   };
 
   const handleSubmit = (values: any, dispatch: any) => {
-  const form = new FormData();
-  form.append("FirstName", values.FirstName);
-  form.append("LastName", values.LastName);
-  form.append("Email", values.Email);
-  form.append("PhoneNumber", `+20${values.PhoneNumber}`);
-  form.append("Password", values.Password);
-  form.append("DateOfBirth", values.DateOfBirth);
-  form.append("Gender", values.Gender);
+    const form = new FormData();
+    form.append("FirstName", values.FirstName);
+    form.append("LastName", values.LastName);
+    form.append("Email", values.Email);
+    form.append("PhoneNumber", `+20${values.PhoneNumber}`);
+    form.append("Password", values.Password);
+    form.append("DateOfBirth", values.DateOfBirth);
+    form.append("Gender", values.Gender);
 
-  if (values.ProfileImage) {
-    const uri = values.ProfileImage;
-    const fileName = uri.split("/").pop() || "profile.jpg";
-    const fileType = "image/jpeg";
+    if (values.ProfileImage) {
+      const uri = values.ProfileImage;
+      const fileName = uri.split("/").pop() || "profile.jpg";
+      const fileType = "image/jpeg";
 
-    form.append("ProfileImage", {
-      uri,
-      name: fileName,
-      type: fileType,
-    } as any);
-  }
+      form.append("ProfileImage", {
+        uri,
+        name: fileName,
+        type: fileType,
+      } as any);
+    }
 
-  console.log("🚀 Sending FormData...");
-  dispatch(registerUser(form as any));
-};
-
+    console.log("🚀 Sending FormData...");
+    dispatch(registerUser(form as any));
+  };
 
   useEffect(() => {
     if (success) {
@@ -249,7 +249,7 @@ export default function RegisterScreen() {
             initialValues={initialValues}
             validationSchema={RegisterSchema}
             validateOnMount={true}
-           onSubmit={(values) => handleSubmit(values, dispatch)}  
+            onSubmit={(values) => handleSubmit(values, dispatch)}
           >
             {({
               handleChange,
@@ -516,7 +516,7 @@ export default function RegisterScreen() {
                             end={{ x: 1, y: 0 }}
                           >
                             <Image
-                              source={require("../../../assests/imgs/famel.png")}
+                              source={require("../../../assests/imgs/female.png")}
                               style={styles.genderIcon}
                             />
                           </LinearGradient>
@@ -528,7 +528,7 @@ export default function RegisterScreen() {
                             ]}
                           >
                             <Image
-                              source={require("../../../assests/imgs/famel.png")}
+                              source={require("../../../assests/imgs/female.png")}
                               style={styles.genderIcon}
                             />
                           </View>
