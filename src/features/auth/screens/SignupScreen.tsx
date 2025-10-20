@@ -181,31 +181,7 @@ export default function RegisterScreen() {
     }
   };
 
-  // const handleSubmit = (values: any, dispatch: any) => {
-  //   const form = new FormData();
-  //   form.append("FirstName", values.FirstName);
-  //   form.append("LastName", values.LastName);
-  //   form.append("Email", values.Email);
-  //   form.append("PhoneNumber", `+20${values.PhoneNumber}`);
-  //   form.append("Password", values.Password);
-  //   form.append("DateOfBirth", values.DateOfBirth);
-  //   form.append("Gender", values.Gender);
-
-  //   if (values.ProfileImage) {
-  //     const uri = values.ProfileImage;
-  //     const fileName = uri.split("/").pop() || "profile.jpg";
-  //     const fileType = "image/jpeg";
-
-  //     form.append("ProfileImage", {
-  //       uri,
-  //       name: fileName,
-  //       type: fileType,
-  //     } as any);
-  //   }
-
-  //   console.log("🚀 Sending FormData...");
-  //   dispatch(registerUser(form as any));
-  // };
+ 
 
   useEffect(() => {
     if (isSuccess) {
