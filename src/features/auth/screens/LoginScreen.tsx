@@ -27,21 +27,20 @@ import { useLogin } from "../hooks/useLogin";
 import { useAppDispatch } from "../../../Redux/store";
 import { setToken } from "../../../Redux/slices/authSlice";
 import { RootStackParamList } from "../../../Navigation/AppNavigator";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Redux/store";
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "Auth",
-  "role"
->;
+type RootNavigationType = NativeStackNavigationProp<RootStackParamList>;
 type LoginScreenProps = NativeStackNavigationProp<
   AuthStackParamList,
   "Register",
   "forgetPassword"
 >;
 export default function LoginScreen() {
-  const mainNavigation = useNavigation<LoginScreenNavigationProp>();
+  const mainNavigation = useNavigation<RootNavigationType>();
   const navigation = useNavigation<LoginScreenProps>();
   const dispatch = useAppDispatch();
+  const token = useSelector((state: RootState) => state.auth.token);
 
   const shadow_SVG = `<svg width="237" height="24" viewBox="0 0 237 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M237 12C237 18.6274 183.946 24 118.5 24C53.0543 24 0 18.6274 0 12C0 5.37258 53.0543 0 118.5 0C183.946 0 237 5.37258 237 12Z" fill="url(#paint0_radial_172_1751)"/>
@@ -83,7 +82,7 @@ export default function LoginScreen() {
   useEffect(() => {
     if (!isSuccess) return;
     // console.log(data.data.token);
-    dispatch(setToken(data.data.token));
+    dispatch(setToken(data?.data?.token));
     mainNavigation.replace("User");
   }, [isSuccess]);
 

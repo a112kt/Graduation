@@ -1,10 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Redux/store";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "../../../Redux/store";
-import { useAppDispatch } from "../../../Redux/store";
-import { clearToken } from "../../../Redux/slices/authSlice";
 import {
   Image,
   SafeAreaView,
@@ -20,11 +14,19 @@ import GradientText from "../../../Components/GradientText";
 import { SvgXml } from "react-native-svg";
 import { lightColors } from "../../../../theme";
 import Highlights from "../../../Components/Highlights";
-import GradientButton from "../../../Components/GradientButton";
+import GradientButton from "../../../Components/buttons/GradientButton";
+import { useAppDispatch } from "../../../Redux/store";
+import { clearToken } from "../../../Redux/slices/authSlice";
+import { RootStackParamList } from "../../../Navigation/AppNavigator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
 const screenWidth = Dimensions.get("window").width;
+type RootNavigationType = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
+  const mainNavigation = useNavigation<RootNavigationType>();
+  const dispatch = useAppDispatch();
   const searchSvg = `
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5947 19.4372C15.7581 20.783 13.4786 21.5804 11.0089 21.5804C4.92898 21.5804 0 16.7493 0 10.7902C0 4.83105 4.92898 0 11.0089 0C17.0888 0 22.0178 4.83105 22.0178 10.7902C22.0178 13.4646 21.0252 15.9119 19.3812 17.7972L24.8208 23.1288C25.0597 23.3629 25.0597 23.7425 24.8208 23.9764L23.956 24.8244C23.7171 25.0585 23.3297 25.0585 23.0911 24.8244L17.5947 19.4372ZM19.5714 10.7902C19.5714 15.4251 15.7378 19.1825 11.0089 19.1825C6.28001 19.1825 2.44642 15.4251 2.44642 10.7902C2.44642 6.15524 6.28001 2.39782 11.0089 2.39782C15.7378 2.39782 19.5714 6.15524 19.5714 10.7902Z" fill="url(#paint0_linear_425_2106)"/>
@@ -128,6 +130,10 @@ export default function HomeScreen() {
               style={styles.iconBtn}
               accessible
               accessibilityLabel="Notifications"
+              onPress={() => {
+                dispatch(clearToken());
+                mainNavigation.replace("Auth");
+              }}
             >
               <SvgXml xml={notiSvg} width={25} height={25} />
             </TouchableOpacity>

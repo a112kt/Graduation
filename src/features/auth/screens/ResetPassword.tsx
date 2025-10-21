@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { lightColors } from "../../../../theme";
 import GradientText from "../../../Components/GradientText";
 import { SafeAreaView } from "react-native-safe-area-context";
-import GradientButton from "../../../Components/GradientButton";
+import GradientButton from "../../../Components/buttons/GradientButton";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -114,7 +114,7 @@ export default function ResetPassword() {
                       ? 1
                       : 0.5,
                 }}
-                onPress={handleSave}  
+                onPress={handleSave}
               />
 
               {/* Back To login */}

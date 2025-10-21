@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Image } from "react-native";
-import GradientButton from "./GradientButton";
-import { RootStackParamList } from "../Navigation/AppNavigator";
+import GradientButton from "../buttons/GradientButton";
+import { RootStackParamList } from "../../Navigation/AppNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 export default function SuccessCard() {

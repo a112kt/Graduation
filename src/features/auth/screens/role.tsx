@@ -6,20 +6,35 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import GradientText from "../../../Components/GradientText";
 import { lightColors } from "../../../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../../Navigation/AuthStack";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Redux/store";
+import { RootStackParamList } from "../../../Navigation/AppNavigator";
 type roleScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
-  "Register"
+  "Register",
+  "Login"
+>;
+type RootNavigationType = NativeStackNavigationProp<
+  RootStackParamList,
+  "Auth",
+  "User"
 >;
 const Role = () => {
+  const token = useSelector((state: RootState) => state.auth.token);
   const navigation = useNavigation<roleScreenNavigationProp>();
+  const mainNavigation = useNavigation<RootNavigationType>();
+  useEffect(() => {
+    if (token !== null) {
+      mainNavigation.replace("User");
+    }
+  }, []);
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Logo Section */}
@@ -46,7 +61,7 @@ const Role = () => {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("Register");
+              navigation.navigate("Login");
             }}
             style={[styles.roleBtnCustomer, { marginTop: 16 }]}
           >

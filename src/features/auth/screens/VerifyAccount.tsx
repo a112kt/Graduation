@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { lightColors } from "../../../../theme";
-import SuccessCard from "../../../Components/SuccessCard";
+import SuccessCard from "../../../Components/cards/SuccessCard";
 import {
   View,
   Text,
@@ -24,7 +24,6 @@ import { TextInput as RNTextInput } from "react-native";
 import TimerIcon from "../../../iconComponent/timer";
 import useVerificaion from "../hooks/useVerificaion";
 import type { AuthStackParamList } from "../../../Navigation/AuthStack";
-import { UserStackParamList } from "../../../Navigation/UserStack";
 import { RouteProp } from "@react-navigation/native";
 import { resendOtp } from "../services/auth";
 import InfoIcon from "../../../iconComponent/info";
@@ -38,17 +37,14 @@ const backIcon = `
   <path d="M15 18.5L9.70711 13.2071C9.31658 12.8166 9.31658 12.1834 9.70711 11.7929L15 6.5" stroke="#6F7073" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
-  type VerifyScreenNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    "Auth",
-    "User"
-  >;
-type RegisterScreenNavigationProp = NativeStackNavigationProp<
-  UserStackParamList,
-  "Home"
+type RootNavigationType = NativeStackNavigationProp<
+  RootStackParamList,
+  "Auth",
+  "User"
 >;
+
 export default function VerifyOtpScreen() {
-  const navigation = useNavigation<VerifyScreenNavigationProp>();
+  const navigation = useNavigation<RootNavigationType>();
   const dispatch = useAppDispatch();
   const { mutate, isPending, isSuccess, data, isError } = useVerificaion();
   type VerifyAccountRouteProp = RouteProp<AuthStackParamList, "verifyAccount">;
