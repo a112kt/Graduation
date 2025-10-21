@@ -5,6 +5,7 @@ import RegisterScreen from "../features/auth/screens/SignupScreen";
 import ForgetPassword from "../features/auth/screens/ForgetPassword";
 import role from  "../features/auth/screens/role";
 import VerifyAccount from  "../features/auth/screens/VerifyAccount";
+import ResetPassword from "../features/auth/screens/ResetPassword";
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -12,6 +13,7 @@ export type AuthStackParamList = {
   forgetPassword:undefined,
   role:undefined,
   verifyAccount:{email:string},
+  resetPassword:undefined
 };
 
 const Stack = createNativeStackNavigator<any>();
@@ -24,6 +26,7 @@ export default function AuthStack(props: any) {
       <Stack.Screen name='forgetPassword' component={ForgetPassword}/>
       <Stack.Screen name='role' component={role}/>
       <Stack.Screen name='verifyAccount' component={VerifyAccount}/>
+      <Stack.Screen name='resetPassword' component={ResetPassword}/>
     </Stack.Navigator>
   );
 }

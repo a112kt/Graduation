@@ -24,19 +24,31 @@ import { TextInput as RNTextInput } from "react-native";
 import TimerIcon from "../../../iconComponent/timer";
 import useVerificaion from "../hooks/useVerificaion";
 import type { AuthStackParamList } from "../../../Navigation/AuthStack";
+import { UserStackParamList } from "../../../Navigation/UserStack";
 import { RouteProp } from "@react-navigation/native";
 import { resendOtp } from "../services/auth";
 import InfoIcon from "../../../iconComponent/info";
 import PhoneIcon from "../../../iconComponent/phone";
 import { useAppDispatch } from "../../../Redux/store";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { setToken } from "../../../Redux/slices/authSlice";
+import { RootStackParamList } from "../../../Navigation/AppNavigator";
 const backIcon = `
   <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M15 18.5L9.70711 13.2071C9.31658 12.8166 9.31658 12.1834 9.70711 11.7929L15 6.5" stroke="#6F7073" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
+  type VerifyScreenNavigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    "Auth",
+    "User"
+  >;
+type RegisterScreenNavigationProp = NativeStackNavigationProp<
+  UserStackParamList,
+  "Home"
+>;
 export default function VerifyOtpScreen() {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<VerifyScreenNavigationProp>();
   const dispatch = useAppDispatch();
   const { mutate, isPending, isSuccess, data, isError } = useVerificaion();
   type VerifyAccountRouteProp = RouteProp<AuthStackParamList, "verifyAccount">;
@@ -48,6 +60,7 @@ export default function VerifyOtpScreen() {
   const [secondsLeft, setSecondsLeft] = useState<number>(60);
   const [valid, setValid] = useState(false);
   const [verificationError, setVerificationError] = useState<boolean>(false);
+  //  const mainNavigation = useNavigation<LoginScreenNavigationProp>();
 
   useEffect(() => {
     const timer =
@@ -69,9 +82,10 @@ export default function VerifyOtpScreen() {
     setVerificationError(isError);
   }, [isError]);
   useEffect(() => {
-      if (!isSuccess) return;
-      dispatch(setToken(data.data.token));
-    }, [isSuccess]);
+    if (!isSuccess) return;
+    dispatch(setToken(data.data.token));
+    navigation.replace("User");
+  }, [isSuccess]);
 
   function handleChangeText(text: string, idx: number) {
     const ch = text.replace(/\s+/g, "").slice(0, 1);

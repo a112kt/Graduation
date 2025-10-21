@@ -1,10 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Redux/store";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "../../../Redux/store";
-import { useAppDispatch } from "../../../Redux/store";
-import { clearToken } from "../../../Redux/slices/authSlice";
 import {
   Image,
   SafeAreaView,
@@ -16,11 +10,11 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
-import GradientText from "../../../Components/GradientText";
+import GradientText from "../../../../Components/GradientText";
 import { SvgXml } from "react-native-svg";
-import { lightColors } from "../../../../theme";
-import Highlights from "../../../Components/Highlights";
-import GradientButton from "../../../Components/GradientButton";
+import { lightColors } from "../../../../../theme";
+import Highlights from "../../../../Components/Highlights";
+import GradientButton from "../../../../Components/GradientButton";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -64,42 +58,42 @@ export default function HomeScreen() {
     {
       id: "1",
       text: "Brand1",
-      source: require("../../../assests/imgs/Brand1.png"),
+      source: require("../../../../assests/imgs/Brand1.png"),
     },
     {
       id: "2",
       text: "Brand2",
-      source: require("../../../assests/imgs/Brand2.png"),
+      source: require("../../../../assests/imgs/Brand2.png"),
     },
     {
       id: "3",
       text: "Brand3",
-      source: require("../../../assests/imgs/Brand3.png"),
+      source: require("../../../../assests/imgs/Brand3.png"),
     },
     {
       id: "4",
       text: "Brand4",
-      source: require("../../../assests/imgs/Brand4.png"),
+      source: require("../../../../assests/imgs/Brand4.png"),
     },
     {
       id: "5",
       text: "Brand5",
-      source: require("../../../assests/imgs/Brand5.png"),
+      source: require("../../../../assests/imgs/Brand5.png"),
     },
     {
       id: "6",
       text: "Brand6",
-      source: require("../../../assests/imgs/Brand6.png"),
+      source: require("../../../../assests/imgs/Brand6.png"),
     },
     {
       id: "7",
       text: "Brand3",
-      source: require("../../../assests/imgs/Brand3.png"),
+      source: require("../../../../assests/imgs/Brand3.png"),
     },
     {
       id: "8",
       text: "Brand2",
-      source: require("../../../assests/imgs/Brand2.png"),
+      source: require("../../../../assests/imgs/Brand2.png"),
     },
   ];
 
@@ -110,7 +104,7 @@ export default function HomeScreen() {
         <View style={styles.container}>
           <View style={styles.logoWrapper}>
             <Image
-              source={require("../../../assests/imgs/AlluvoLogo.png")}
+              source={require("../../../../assests/imgs/AlluvoLogo.png")}
               style={styles.logoImage}
               resizeMode="contain"
             />
@@ -157,7 +151,7 @@ export default function HomeScreen() {
 
           <View style={styles.BrandProfile}>
             <Image
-              source={require("../../../assests/imgs/Profile.png")}
+              source={require("../../../../assests/imgs/Profile.png")}
               style={styles.brandProfileImage}
             />
             <Text style={styles.brandName}>Brand Name</Text>
@@ -167,7 +161,7 @@ export default function HomeScreen() {
         {/* Background Offer Image */}
         <View style={styles.BackGroundOffer}>
           <ImageBackground
-            source={require("../../../assests/imgs/offer.png")}
+            source={require("../../../../assests/imgs/offer.png")}
             style={styles.backgroundImage}
             resizeMode="cover"
           />
@@ -176,7 +170,7 @@ export default function HomeScreen() {
         {/* Explore */}
         <View style={styles.ExploreContainer}>
           <ImageBackground
-            source={require("../../../assests/imgs/Explore.png")}
+            source={require("../../../../assests/imgs/Explore.png")}
             style={styles.ExploreImage}
             resizeMode="cover"
           >
