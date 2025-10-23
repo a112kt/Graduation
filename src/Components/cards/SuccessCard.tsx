@@ -47,7 +47,7 @@ export default function SuccessCard() {
             }}
           >
             <Image
-              source={require("../assests/imgs/verification-success.png")}
+              source={require("../../assests/imgs/verification-success.png")}
               style={{
                 height: 101,
                 width: 101,

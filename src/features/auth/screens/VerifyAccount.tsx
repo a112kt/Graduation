@@ -80,7 +80,6 @@ export default function VerifyOtpScreen() {
   useEffect(() => {
     if (!isSuccess) return;
     dispatch(setToken(data.data.token));
-    navigation.replace("User");
   }, [isSuccess]);
 
   function handleChangeText(text: string, idx: number) {
