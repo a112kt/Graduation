@@ -44,7 +44,6 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
   "Login"
 >;
 
-
 export default function RegisterScreen() {
   const { mutate, error, isPending, isSuccess, data } = useRegister();
   const formRef = useRef<any>(null);
@@ -181,14 +180,13 @@ export default function RegisterScreen() {
     }
   };
 
- 
-
   useEffect(() => {
     if (isSuccess) {
       console.log("data inside signup ===>>>>  " + data);
       if (JSON.parse(data).success) {
         navigation.navigate("verifyAccount", {
           email: formRef.current?.values.Email,
+          source: "signup",
         });
       }
     }

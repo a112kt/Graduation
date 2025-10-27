@@ -60,6 +60,10 @@ export default function VerifyOtpScreen() {
     | "signup"
     | "forgetPassword"
     | undefined;
+  useEffect(() => {
+    console.log("source is ......");
+    console.log(source);
+  }, []);
 
   const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
   const inputsRef = useRef<Array<TextInput | null>>([]);
@@ -90,12 +94,10 @@ export default function VerifyOtpScreen() {
   }, [isError]);
   useEffect(() => {
     if (!isSuccess) return;
-      if (source === "forgetPassword") {
-        Autnavigation.navigate("resetPassword");
-      } 
-
+    if (source === "forgetPassword") {
+      Autnavigation.navigate("resetPassword");
+    }
   }, [isSuccess]);
- 
 
   function handleChangeText(text: string, idx: number) {
     const ch = text.replace(/\s+/g, "").slice(0, 1);
@@ -153,7 +155,6 @@ export default function VerifyOtpScreen() {
 
   async function handleResend() {
     try {
-
       const res = await resendOtp(email);
       const data = await res.json();
       if (data.data === "OTP resent successfully.") {
@@ -165,7 +166,7 @@ export default function VerifyOtpScreen() {
       }
     } catch (error) {
       console.log("error is    :   " + error);
-         Alert.alert("Error", data.data)
+      Alert.alert("Error", data.data);
     }
   }
 
@@ -418,7 +419,7 @@ export default function VerifyOtpScreen() {
       </ScrollView>
       <Modal
         transparent
-        visible={isSuccess && source !== "signup"}
+        visible={isSuccess && source === "signup"}
         animationType="fade"
       >
         <SuccessCard />
