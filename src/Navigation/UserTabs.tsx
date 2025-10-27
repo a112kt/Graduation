@@ -17,7 +17,7 @@ import WishlistIcon from "../iconComponent/WishlistIcon";
 const Tab = createBottomTabNavigator();
 
 export default function UserTabs() {
-  return (
+ return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
@@ -31,8 +31,8 @@ export default function UserTabs() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={true ? styles.activeIconContainer : undefined}>
-              <HomeIcon size={30} />
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <HomeIcon size={25} active={focused} />
             </View>
           ),
         }}
@@ -44,7 +44,7 @@ export default function UserTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeIconContainer : undefined}>
-              <WishlistIcon size={30} />
+              <WishlistIcon size={25} />
             </View>
           ),
         }}
@@ -56,7 +56,7 @@ export default function UserTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeIconContainer : undefined}>
-              <ExploreIcon size={30} />
+              <ExploreIcon size={25} />
             </View>
           ),
         }}
@@ -68,7 +68,7 @@ export default function UserTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeIconContainer : undefined}>
-              <OrdersIcon size={30} />
+              <OrdersIcon size={25} />
             </View>
           ),
         }}
@@ -80,7 +80,7 @@ export default function UserTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeIconContainer : undefined}>
-              <ProfileIcon size={30} />
+              <ProfileIcon size={25} />
             </View>
           ),
         }}

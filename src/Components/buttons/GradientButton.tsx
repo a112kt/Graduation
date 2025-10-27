@@ -1,16 +1,23 @@
 import React from "react";
 import { Text, Pressable, StyleSheet, ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { TouchableOpacity } from "react-native";
 
 interface GradientButtonProps {
   text: string;
   onPress?: () => void;
   style?: ViewStyle;
+  disabled?: boolean;
 }
 
-const GradientButton: React.FC<GradientButtonProps> = ({ text, onPress, style }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({
+  text,
+  onPress,
+  style,
+  disabled = false,
+}) => {
   return (
-    <Pressable onPress={onPress} style={[styles.buttonWrapper, style]}>
+    <TouchableOpacity onPress={onPress} style={[styles.buttonWrapper, style]}>
       <LinearGradient
         colors={["#1B2351", "#47C0D2"]}
         start={{ x: 0, y: 0 }}
@@ -19,7 +26,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({ text, onPress, style })
       >
         <Text style={styles.text}>{text}</Text>
       </LinearGradient>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

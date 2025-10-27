@@ -5,22 +5,28 @@ import GradientButton from "../buttons/GradientButton";
 import { RootStackParamList } from "../../Navigation/AppNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-export default function SuccessCard() {
-  type MainNavigation = NativeStackNavigationProp<
-    RootStackParamList,
-    "Auth",
-    "User"
-  >;
-  const MainRegisterScreenNavigationProp = useNavigation<MainNavigation>();
+import { AuthStackParamList } from "../../Navigation/AuthStack";
+type SuccessCardProps = {
+  title?: string;
+  subtitle?: string;
+  onContinue?: () => void;
+};
+type NavigationProp = NativeStackNavigationProp<
+  AuthStackParamList,
+  "resetPassword",
+  "interset"
+>;
+
+
+export default function SuccessCard({
+  title = "Account Created Successfully",
+  subtitle,
+  onContinue,
+}: SuccessCardProps) {
+  const Autnavigation = useNavigation<NavigationProp>();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View
         style={{
           backgroundColor: "#FEFEFE",
@@ -30,30 +36,19 @@ export default function SuccessCard() {
           paddingHorizontal: 16,
         }}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 24,
-          }}
-        >
+        <View style={{ justifyContent: "center", alignItems: "center", gap: 24 }}>
           <View
             style={{
               height: 140,
               width: 140,
-              borderRadius: "50%",
+              borderRadius: 70, 
               overflow: "hidden",
               backgroundColor: "#B4DBE180",
             }}
           >
             <Image
               source={require("../../assests/imgs/verification-success.png")}
-              style={{
-                height: 101,
-                width: 101,
-                alignSelf: "center",
-                marginTop: 20,
-              }}
+              style={{ height: 101, width: 101, alignSelf: "center", marginTop: 20 }}
               resizeMode="contain"
             />
           </View>
@@ -61,17 +56,32 @@ export default function SuccessCard() {
           <Text
             style={{
               fontFamily: "Poppins-SemiBold",
-              fontWeight: 500,
+              fontWeight: "500",
               fontSize: 16,
               color: "#1B2351",
             }}
           >
-            Account Created Successfully
+            {title}
           </Text>
+
+          {subtitle && (
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 14,
+                color: "#6B6B6B",
+                textAlign: "center",
+              }}
+            >
+              {subtitle}
+            </Text>
+          )}
+
           <GradientButton
-            text="Home"
+            text="Next"
             onPress={() => {
-              MainRegisterScreenNavigationProp.replace("User");
+              if (onContinue) onContinue();
+              else  Autnavigation.navigate("interset");
             }}
           />
         </View>
@@ -79,5 +89,3 @@ export default function SuccessCard() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

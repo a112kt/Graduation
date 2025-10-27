@@ -81,8 +81,9 @@ export default function LoginScreen() {
   });
   useEffect(() => {
     if (!isSuccess) return;
-    // console.log(data.data.token);
-    dispatch(setToken(data?.data?.token));
+     if (data !== undefined) {
+      dispatch(setToken(data?.data?.token));
+    }
     mainNavigation.replace("User");
   }, [isSuccess]);
 

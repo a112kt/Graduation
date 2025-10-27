@@ -12,6 +12,7 @@ import Svg, {
 
 interface Props extends SvgProps {
   size?: number;
+  active?: boolean;
 }
 
 const HomeIcon: React.FC<Props> = ({ size = 26, ...rest }) => {

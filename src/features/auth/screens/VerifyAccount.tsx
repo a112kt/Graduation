@@ -42,14 +42,24 @@ type RootNavigationType = NativeStackNavigationProp<
   "Auth",
   "User"
 >;
+type NavigationProp = NativeStackNavigationProp<
+  AuthStackParamList,
+  "resetPassword",
+  "interset"
+>;
 
 export default function VerifyOtpScreen() {
   const navigation = useNavigation<RootNavigationType>();
+  const Autnavigation = useNavigation<NavigationProp>();
   const dispatch = useAppDispatch();
   const { mutate, isPending, isSuccess, data, isError } = useVerificaion();
   type VerifyAccountRouteProp = RouteProp<AuthStackParamList, "verifyAccount">;
   const route = useRoute<VerifyAccountRouteProp>();
   const email = route.params.email;
+  const source = (route.params as any).source as
+    | "signup"
+    | "forgetPassword"
+    | undefined;
 
   const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
   const inputsRef = useRef<Array<TextInput | null>>([]);
@@ -76,11 +86,16 @@ export default function VerifyOtpScreen() {
   }, [code]);
   useEffect(() => {
     setVerificationError(isError);
+    setSecondsLeft(60);
   }, [isError]);
   useEffect(() => {
     if (!isSuccess) return;
-    dispatch(setToken(data.data.token));
+      if (source === "forgetPassword") {
+        Autnavigation.navigate("resetPassword");
+      } 
+
   }, [isSuccess]);
+ 
 
   function handleChangeText(text: string, idx: number) {
     const ch = text.replace(/\s+/g, "").slice(0, 1);
@@ -137,16 +152,20 @@ export default function VerifyOtpScreen() {
   }
 
   async function handleResend() {
-    const res = await resendOtp(email);
-    // console.log(email);
-    // console.log(res.data);
-    // console.log(res.statusCode);
-    if (res.data === "OTP resent successfully.") {
-      setCode(["", "", "", "", ""]);
-      setSecondsLeft(60);
-      setVerificationError(false);
-    } else {
-      Alert.alert("Error", res.data);
+    try {
+
+      const res = await resendOtp(email);
+      const data = await res.json();
+      if (data.data === "OTP resent successfully.") {
+        setCode(["", "", "", "", ""]);
+        setSecondsLeft(60);
+        setVerificationError(false);
+      } else {
+        Alert.alert("Error", data.data);
+      }
+    } catch (error) {
+      console.log("error is    :   " + error);
+         Alert.alert("Error", data.data)
     }
   }
 
@@ -299,10 +318,30 @@ export default function VerifyOtpScreen() {
             </View>
           )}
           {verificationError && (
-            <View style={styles.dividerContainer}>
-              <View style={styles.line} />
-              <Text style={styles.textLine}>or</Text>
-              <View style={styles.line} />
+            <View>
+              <View style={styles.dividerContainer}>
+                <View style={styles.line} />
+                <Text style={styles.textLine}>or</Text>
+                <View style={styles.line} />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Text>you can resend after ...</Text>
+                <TimerIcon />
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={styles.timerText}>
+                    {` ${String(Math.floor(secondsLeft / 60)).padStart(
+                      2,
+                      "0"
+                    )}:${String(secondsLeft % 60).padStart(2, "0")}`}
+                  </Text>
+                </View>
+              </View>
             </View>
           )}
 
@@ -311,14 +350,17 @@ export default function VerifyOtpScreen() {
             style={{ width: "100%", marginTop: 18 }}
             onPress={handleVerify}
             activeOpacity={0.5}
-            disabled={verificationError ? false : isPending || !valid}
+            disabled={verificationError ? secondsLeft > 0 : isPending || !valid}
           >
             {verificationError ? (
               <LinearGradient
                 colors={["#892727", "#EF4444"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.verifyBtn]}
+                style={[
+                  styles.verifyBtn,
+                  { opacity: secondsLeft > 0 ? 0.6 : 1 },
+                ]}
               >
                 <Text style={styles.verifyBtnText}>Resend</Text>
               </LinearGradient>
@@ -374,7 +416,11 @@ export default function VerifyOtpScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <Modal transparent visible={isSuccess} animationType="fade">
+      <Modal
+        transparent
+        visible={isSuccess && source !== "signup"}
+        animationType="fade"
+      >
         <SuccessCard />
       </Modal>
     </SafeAreaView>

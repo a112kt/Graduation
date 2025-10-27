@@ -55,7 +55,41 @@ export async function verification(data:verigicationData) {
 }
 // Resend OTP function
 export async function resendOtp(email:string) {
-  const res = await apiCall.post(`/api/Otp/ResendOtp?email=${email}`)
-  return res.data
+  const res =  await fetch(`https://alluvo-api-stating.runasp.net/api/Otp/ResendOtp?email=${email}`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  });
+    return res
+  }
 
+// Forget password
+export default async function forgetPassword(email: string) {
+  const response = await apiCall.post( "/api/Auth/ForgetPassword",
+    { email }
+  );
+  return response.data;
+}
+
+// ResetPassword
+export async function resetPassword(token: string, newPassword: string) {
+  try {
+    const res = await apiCall.post(
+      "/api/Auth/ResetPassword",
+      {
+        newPassword: newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+          accept: "text/plain",
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error: any) {
+    console.error("Reset password failed:", error.response?.data || error.message);
+    throw error;
+  }
 }

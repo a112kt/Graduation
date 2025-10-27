@@ -20,12 +20,15 @@ import { clearToken } from "../../../Redux/slices/authSlice";
 import { RootStackParamList } from "../../../Navigation/AppNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { UserStackParamList } from "../../../Navigation/UserStack";
 
 const screenWidth = Dimensions.get("window").width;
 type RootNavigationType = NativeStackNavigationProp<RootStackParamList>;
+ type UserStackNavProp = NativeStackNavigationProp<UserStackParamList>;
 
 export default function HomeScreen() {
   const mainNavigation = useNavigation<RootNavigationType>();
+  const userStackNavigation = useNavigation<UserStackNavProp>();
   const dispatch = useAppDispatch();
   const searchSvg = `
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -161,12 +164,18 @@ export default function HomeScreen() {
             <SvgXml xml={starSvg} width={25} height={25} style={styles.icon} />
           </View>
 
-          <View style={styles.BrandProfile}>
-            <Image
-              source={require("../../../assests/imgs/Profile.png")}
-              style={styles.brandProfileImage}
-            />
-            <Text style={styles.brandName}>Brand Name</Text>
+           <View style={styles.BrandProfile}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => userStackNavigation.navigate("BrandProfile")}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
+              <Image
+                source={require("../../../assests/imgs/Profile.png")}
+                style={styles.brandProfileImage}
+              />
+              <Text style={styles.brandName}>Brand Name</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
